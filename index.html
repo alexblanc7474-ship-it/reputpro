@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avisio — L'application qui vous change la vie</title>
+  
+  <!-- Configuration iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Avisio">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px 16px; max-width: 500px; margin: 0 auto; }
+
+    header { text-align: center; margin-bottom: 28px; margin-top: 10px; }
+    .logo-container {
+      width: 64px;
+      height: 64px;
+      background: var(--primary-gradient);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+    .logo-container svg { width: 36px; height: 36px; fill: white; }
+    header h1 { font-size: 32px; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+    
+    .hero-tagline { font-size: 16px; font-weight: 700; color: var(--text); margin-top: 8px; line-height: 1.3; }
+    .hero-benefits { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 500; }
+
+    .card { background: var(--card-bg); padding: 24px; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 20px; }
+    .card h2 { font-size: 18px; margin-bottom: 16px; font-weight: 700; color: var(--text); }
+
+    /* Plans / Tarifs */
+    .plan { border: 2px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 16px; position: relative; background: #fff; }
+    .plan.popular { border-color: var(--primary); background: #f0f7ff; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
+    .badge { position: absolute; top: -12px; right: 16px; background: var(--primary-gradient); color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .plan-title { font-weight: 800; font-size: 20px; }
+    .plan-price { font-size: 28px; font-weight: 800; margin: 4px 0 2px; color: var(--text); }
+    .plan-price span { font-size: 13px; color: var(--muted); font-weight: normal; }
+    .free-trial { font-size: 12px; font-weight: 700; color: #16a34a; margin-bottom: 12px; display: block; }
+    
+    .plan-features { list-style: none; margin-bottom: 14px; font-size: 13px; color: var(--text); line-height: 1.5; }
+    .plan-features li { margin-bottom: 8px; padding-left: 20px; position: relative; }
+    .plan-features li::before { content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+
+    /* Accordéon détails */
+    details { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 12.5px; color: var(--muted); }
+    details summary { font-weight: 700; color: var(--primary); cursor: pointer; outline: none; }
+    details p { margin-top: 8px; line-height: 1.4; color: var(--text); }
+
+    /* Formulaires */
+    label { font-size: 13px; font-weight: 600; color: var(--text); display: block; margin-bottom: 6px; }
+    input, select { width: 100%; padding: 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 15px; margin-bottom: 16px; outline: none; background: #f8fafc; }
+    input:focus, select:focus { border-color: var(--primary); background: #ffffff; }
+
+    /* Boutons */
+    .btn { display: block; width: 100%; text-align: center; background: var(--primary-gradient); color: white; padding: 14px; border-radius: 12px; font-weight: 700; text-decoration: none; border: none; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+    .btn:active { transform: scale(0.98); }
+    .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }
+
+    /* Dashboard Preview */
+    .review-item { background: #f8fafc; padding: 14px; border-radius: 12px; font-size: 13px; margin-top: 10px; border: 1px solid #e2e8f0; }
+    .review-item .stars { color: #f59e0b; margin-bottom: 6px; font-size: 14px; }
+    .ai-reply { background: #eff6ff; border-left: 4px solid var(--primary); padding: 10px; margin-top: 8px; border-radius: 6px; color: #1e40af; font-size: 12.5px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6.43 9.57L12 15l-1.57-3.43L7 10l3.43-1.57L12 5l1.57 3.43L17 10l-3.43 1.57z"/>
+      </svg>
+    </div>
+    <h1>Avisio</h1>
+    <p class="hero-tagline">L'application qui vous change la vie.</p>
+    <p class="hero-benefits">⚡ Gagnez du temps — 📈 Gagnez de l'argent — 🤖 Automatisez vos avis Google</p>
+  </header>
+
+  <!-- Section Offres -->
+  <div class="card">
+    <h2>Choisissez votre formule</h2>
+
+    <!-- Starter (29€) -->
+    <div class="plan">
+      <div class="plan-title">Starter</div>
+      <div class="plan-price">29 € <span>/ mois</span></div>
+      <span class="free-trial">🎁 14 jours d'essai gratuit</span>
+      <ul class="plan-features">
+        <li>Réponses IA 24h/24 (délai max 2h)</li>
+        <li>Ton adaptatif (positif / négatif)</li>
+        <li>QR Code personnalisé</li>
+      </ul>
+      <details>
+        <summary>🔍 Plus de détails sur ce forfait</summary>
+        <p>Le forfait Starter automatise entièrement vos réponses aux avis Google 24h/24. L'IA rédige des messages 100 % uniques avec un délai variable (jusqu'à 2h) pour paraître totalement humain. Ton chaleureux pour les 5 étoiles, professionnel pour les critiques. Inclut une alerte mail immédiate et votre QR code prêt à imprimer.</p>
+      </details>
+      <button onclick="startCheckout('price_starter_ID')" class="btn btn-outline">Tester gratuitement 14 jours</button>
+    </div>
+
+    <!-- Pro (59€) -->
+    <div class="plan popular">
+      <div class="badge">Le plus populaire</div>
+      <div class="plan-title">Pro</div>
+      <div class="plan-price">59 € <span>/ mois</span></div>
+      <span class="free-trial">🎁 14 jours d'essai gratuit</span>
+      <ul class="plan-features">
+        <li>Tout le forfait Starter inclus</li>
+        <li>Relances SMS & Email automatiques</li>
+        <li>Publication Réseaux & Site Web</li>
+      </ul>
+      <details>
+        <summary>🔍 Plus de détails sur ce forfait</summary>
+        <p>Le pack de croissance ultime pour les commerçants. En plus du Starter, il envoie des SMS ou e-mails de relance automatiques après le passage en caisse pour multiplier vos avis. Il intègre aussi la publication de vos avis sur Instagram & Facebook, un widget pour votre site web, un filtre anti-avis négatifs et un tableau de bord statistique complet.</p>
+      </details>
+      <button onclick="startCheckout('price_pro_ID')" class="btn">Tester gratuitement 14 jours</button>
+    </div>
+
+    <!-- Premium (99€) -->
+    <div class="plan">
+      <div class="plan-title">Premium</div>
+      <div class="plan-price">99 € <span>/ mois</span></div>
+      <span class="free-trial">🎁 14 jours d'essai gratuit</span>
+      <ul class="plan-features">
+        <li>Tout le forfait Pro inclus</li>
+        <li>Multi-établissements (jusqu'à 3 fiches)</li>
+        <li>Posts Google automatiques par l'IA</li>
+      </ul>
+      <details>
+        <summary>🔍 Plus de détails sur ce forfait</summary>
+        <p>Pensé pour les enseignes multi-sites ou les gérants de plusieurs fiches Google Business (jusqu'à 3 fiches regroupées sur un seul compte). Profitez en plus de la création automatique de publications d'actualités/promos par l'IA sur Google et d'un support client prioritaire garanti 7j/7.</p>
+      </details>
+      <button onclick="startCheckout('price_premium_ID')" class="btn btn-outline">Tester gratuitement 14 jours</button>
+    </div>
+  </div>
+
+  <!-- Espace Client / Configuration -->
+  <div class="card">
+    <h2>Configuration de votre établissement</h2>
+    <form id="setup-form" onsubmit="handleConfig(event)">
+      <label for="biz-name">Nom du commerce</label>
+      <input type="text" id="biz-name" placeholder="Ex: Boulangerie Saint-Michel" required>
+
+      <label for="google-url">Lien de la fiche Google Business</label>
+      <input type="url" id="google-url" placeholder="https://g.page/r/..." required>
+
+      <label for="ai-tone">Ton par défaut pour l'IA</label>
+      <select id="ai-tone">
+        <option value="chaleureux">Chaleureux & Convivial</option>
+        <option value="professionnel">Professionnel & Formel</option>
+        <option value="dynamique">Enthousiaste & Dynamique</option>
+      </select>
+
+      <button type="submit" class="btn">Connecter mon compte Google</button>
+    </form>
+  </div>
+
+  <!-- Aperçu du service IA -->
+  <div class="card">
+    <h2>Dernier avis géré par l'IA</h2>
+    <div class="review-item">
+      <div class="stars">★★★★★</div>
+      <p><strong>Marc D.</strong> : "Très bon accueil et produits frais. Je recommande !"</p>
+      <div class="ai-reply">
+        <strong>Réponse Avisio (IA - publiée 45 min plus tard) :</strong> "Merci beaucoup Marc ! Toute l'équipe vous remercie pour ce retour chaleureux. À très bientôt !"
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startCheckout(priceId) {
+      alert("Redirection vers le paiement sécurisé Stripe pour l'offre sélectionnée (ID : " + priceId + ")");
+    }
+
+    function handleConfig(event) {
+      event.preventDefault();
+      const bizName = document.getElementById('biz-name').value;
+      alert("Félicitations ! L'établissement '" + bizName + "' est configuré avec succès. Connexion à la fiche Google en cours...");
+    }
+  </script>
+
+</body>
+</html>
